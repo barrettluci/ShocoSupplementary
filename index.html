@@ -29,6 +29,8 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
         }
 
         .login-container input {
@@ -53,6 +55,17 @@
             background-color: #d90000;
         }
 
+        .toggle-password {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .toggle-password input {
+            margin-left: 10px;
+        }
+
         .error-message {
             color: red;
             font-size: 0.9em;
@@ -69,38 +82,47 @@
 
 <body>
     <div class="login-container">
-        <form id="password-form">
-            <h1>Enter Today's Password</h1>
+        <form id="login-form">
+            <h1>Login</h1>
             <div id="error-message" class="error-message"></div>
+            <input type="text" id="username" placeholder="Enter Username" required>
             <input type="password" id="password" placeholder="Enter Password" required>
+            <div class="toggle-password">
+                <label for="show-password">Show Password</label>
+                <input type="checkbox" id="show-password">
+            </div>
             <button type="submit">Login</button>
         </form>
     </div>
 
     <script>
+        
+        const validUsername = "ShocoOil"; 
+        const validPassword = "SecureShoco@CleanOil123"; 
 
-        function generatePassword() {
-            const secretKey = "ShocoOilKey";
-            const today = new Date().toISOString().split("T")[0]; 
-            const password = btoa(secretKey + today); 
-            return password;
-        }
+        
+        document.getElementById("show-password").addEventListener("change", function () {
+            const passwordInput = document.getElementById("password");
+            if (this.checked) {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        });
 
-     
-        console.log("Today's password is:", generatePassword());
-
-        document.getElementById("password-form").addEventListener("submit", function (event) {
+        
+        document.getElementById("login-form").addEventListener("submit", function (event) {
             event.preventDefault(); 
 
+            const enteredUsername = document.getElementById("username").value;
             const enteredPassword = document.getElementById("password").value;
-            const dailyPassword = generatePassword();
 
-            if (enteredPassword === dailyPassword) {
-
-                window.location.href = "home.html"; 
+            if (enteredUsername === validUsername && enteredPassword === validPassword) {
+                
+                window.location.href = "home.html";
             } else {
-
-                document.getElementById("error-message").innerText = "Wrong password. Please try again."
+               
+                document.getElementById("error-message").innerText = "Invalid username or password. Please try again.";
             }
         });
     </script>
